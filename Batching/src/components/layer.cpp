@@ -47,62 +47,72 @@ namespace SimpleGE
 
     // Each frame we rebuild the batch
     // HORRIBLY inefficient, but simple and also not too costly because 2D rendering
-    // To be totally honest I hate this but a better way would take too much time.
     int indexCount = 0;
     int vertexCount = 0;
-
-    for (int i = 0; i < layerSprites.size(); i++)
     {
-      auto spriteComponent = gsl::at(layerSprites, i);
-      // newSpriteSheet because I wanted to make it work even if the sprite sheet changes
-      // but we can't really compare them for now. The function is "still" here but the comparison is ignored.
-      auto newSpriteSheet = spriteComponent->GetSpriteSheet();
+      // Reducing mapping calls
+      auto batchIndexBufferMapping = batchIndexBuffer->Map({0, LAYER_BATCH_SIZE});
+      auto batchVertexBufferMapping = batchVertexBuffer->Map({0, LAYER_BATCH_SIZE});
 
-      // C++ data structures, NOT ON GPU
-      auto indices = spriteComponent->GetIndices();
-      auto vertices = spriteComponent->GetVertices();
-
-      // Draw if batch is full or if spritesheet is changing (commented out)
-      if (vertexCount + std::size(vertices) > LAYER_BATCH_SIZE ||
-          indexCount + std::size(indices) > LAYER_BATCH_SIZE) // | newSpriteSheet != spriteSheet)
+      for (int i = 0; i < layerSprites.size(); i++)
       {
-        Ensures(spriteSheet.Ready());
+        auto spriteComponent = gsl::at(layerSprites, i);
 
-        auto& ubo = spriteSheet->GetUniformBuffer();
-        ubo.model = glm::identity<glm::mat4>();
-        ubo.view = glm::identity<glm::mat4>();
-        ubo.proj = camera.Projection();
-
-        spriteSheet->Draw(camera, *batchVertexBuffer, *batchIndexBuffer, indexCount);
-
-        // Reset batch
-        indexCount = 0;
-        vertexCount = 0;
-      }
-
-      spriteSheet = newSpriteSheet;
-
-      // Copy indices into batch index buffer
-      {
-        // Offset indices
-        for (auto& index : indices)
+        if (!spriteComponent->Enabled() || !spriteComponent->Owner().Active())
         {
-          index += vertexCount;
+          continue;
         }
 
-        auto mapping = batchIndexBuffer->Map({indexCount * static_cast<ptrdiff_t>(sizeof(SpriteSheetComponent::ShaderProgram::Index)), std::size(indices)});
-        std::copy(indices.begin(), indices.end(), mapping.Get().begin());
+        // newSpriteSheet because I wanted to make it work even if the sprite sheet changes
+        // but we can't really compare them for now. The function is "still" here but the comparison is ignored.
+        auto newSpriteSheet = spriteComponent->GetSpriteSheet();
+
+        // C++ data structures, NOT ON GPU
+        auto indices = spriteComponent->GetIndices();
+        auto vertices = spriteComponent->GetVertices();
+
+        // Draw if batch is full or if spritesheet is changing (commented out)
+        if (vertexCount + std::size(vertices) > LAYER_BATCH_SIZE ||
+            indexCount + std::size(indices) > LAYER_BATCH_SIZE) // | newSpriteSheet != spriteSheet)
+        {
+          // Remove mapping
+          Ensures(spriteSheet.Ready());
+
+          auto& ubo = spriteSheet->GetUniformBuffer();
+          ubo.model = glm::identity<glm::mat4>();
+          ubo.view = glm::identity<glm::mat4>();
+          ubo.proj = camera.Projection();
+
+          spriteSheet->Draw(camera, *batchVertexBuffer, *batchIndexBuffer, indexCount);
+
+          // Reset batch
+          indexCount = 0;
+          vertexCount = 0;
+          batchIndexBufferMapping = batchIndexBuffer->Map({0, LAYER_BATCH_SIZE});
+          batchVertexBufferMapping = batchVertexBuffer->Map({0, LAYER_BATCH_SIZE});
+        }
+
+        spriteSheet = newSpriteSheet;
+
+        // Copy indices into batch index buffer
+        {
+          // Offset indices
+          for (auto& index : indices)
+          {
+            index += vertexCount;
+          }
+
+          std::copy(indices.begin(), indices.end(), batchIndexBufferMapping.Get().begin() + indexCount);
+        }
+
+        // Do the same for vertices
+        {
+          std::copy(vertices.begin(), vertices.end(), batchVertexBufferMapping.Get().begin() + vertexCount);
+        }
+
+        vertexCount += std::size(vertices);
+        indexCount += std::size(indices);
       }
-
-      // Do the same for vertices
-      {
-        auto mapping = batchVertexBuffer->Map({vertexCount * static_cast<ptrdiff_t>(sizeof(SpriteSheetComponent::ShaderProgram::Vertex)), std::size(vertices)});
-
-        std::copy(vertices.begin(), vertices.end(), mapping.Get().begin());
-      }
-
-      vertexCount += std::size(vertices);
-      indexCount += std::size(indices);
     }
 
     // Draw if not emtpy (already drawn)
