@@ -2,6 +2,10 @@
 
 #include <simplege/simplege.h>
 
+//
+// TODO : Support multiple sprite sheets
+//
+
 namespace SimpleGE
 {
   static std::vector<gsl::not_null<SpriteComponent*>> ListSprites(const EntityRef& owner)

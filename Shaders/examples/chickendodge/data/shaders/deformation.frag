@@ -25,7 +25,7 @@ layout(location = 0) out vec4 fragColor;
 
 void main(void) {
     float intensity = texture(uIntensity, vec2(uTime, 0.5)).r * uScale;
-    vec2 deformation = texture(uDeformation, vTextureCoord * sin(uTime)).rg * intensity;
+    vec2 deformation = (texture(uDeformation, vTextureCoord + sin(uTime)).rg * 2.0f - 1.0f) * intensity;
 
     fragColor = texture(uSampler, vTextureCoord + deformation);
     fragColor.gb *= 0.5;
