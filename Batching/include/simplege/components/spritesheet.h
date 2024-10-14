@@ -43,7 +43,6 @@ namespace SimpleGE
 
     void Draw(const CameraComponent& camera, const ShaderProgram::VertexBufferType& vertexBuffer,
               const ShaderProgram::IndexBufferType& indexBuffer, std::size_t indexCount);
-
   private:
     void SetupImpl(const Description& descr);
 

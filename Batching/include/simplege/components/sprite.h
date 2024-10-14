@@ -75,7 +75,7 @@ namespace SimpleGE
     static constexpr std::array<ShaderProgram::Index, 6> Indices{0, 1, 2, 2, 3, 0};
 
     std::array<ShaderProgram::Vertex, 4> vertices;
-    std::unique_ptr<ShaderProgram::VertexBufferType> vertexBuffer;
-    std::unique_ptr<ShaderProgram::IndexBufferType> indexBuffer;
+    // std::unique_ptr<ShaderProgram::VertexBufferType> vertexBuffer;
+    // std::unique_ptr<ShaderProgram::IndexBufferType> indexBuffer;
   };
 } // namespace SimpleGE

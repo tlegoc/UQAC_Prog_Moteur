@@ -70,6 +70,10 @@ namespace SimpleGE
         // newSpriteSheet because I wanted to make it work even if the sprite sheet changes
         // but we can't really compare them for now. The function is "still" here but the comparison is ignored.
         auto newSpriteSheet = spriteComponent->GetSpriteSheet();
+        if (spriteSheet.IsEmpty())
+        {
+          spriteSheet = newSpriteSheet;
+        }
 
         // C++ data structures, NOT ON GPU
         auto indices = spriteComponent->GetIndices();
@@ -77,10 +81,13 @@ namespace SimpleGE
 
         // Draw if batch is full or if spritesheet is changing (commented out)
         if (vertexCount + std::size(vertices) > LAYER_BATCH_SIZE ||
-            indexCount + std::size(indices) > LAYER_BATCH_SIZE) // | newSpriteSheet != spriteSheet)
+            indexCount + std::size(indices) > LAYER_BATCH_SIZE || newSpriteSheet.Resolve() != spriteSheet.Resolve()) // I hate comparing pointers but I dont know how to create the comparison operator for SpriteSheetComponent
         {
-          // Remove mapping
           Ensures(spriteSheet.Ready());
+
+          // Remove mapping
+          batchIndexBufferMapping.ForceUnmap();
+          batchVertexBufferMapping.ForceUnmap();
 
           auto& ubo = spriteSheet->GetUniformBuffer();
           ubo.model = glm::identity<glm::mat4>();

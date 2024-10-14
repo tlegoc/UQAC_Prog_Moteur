@@ -31,6 +31,17 @@ namespace SimpleGE::GFXAPI
   }
 
   template<typename T>
+  inline void MemoryMap<T>::ForceUnmap()
+  {
+    if (data != nullptr)
+    {
+      const auto& vkDevice = buffer.GetDevice().GetNative();
+      vkDevice.unmapMemory(buffer.GetNativeMemory());
+      data = nullptr;
+    }
+  }
+
+  template<typename T>
   inline MemoryMap<T>& MemoryMap<T>::operator=(MemoryMap<T>&& other) noexcept
   {
     Expects(&buffer == &other.buffer);

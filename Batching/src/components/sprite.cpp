@@ -46,8 +46,8 @@ namespace SimpleGE
   {
     // On crée ici un tableau de 4 vertices permettant de représenter
     // le rectangle à afficher.
-    constexpr auto NbVertex = 4;
-    vertexBuffer = ShaderProgram::CreateVertexBuffer(NbVertex);
+    // constexpr auto NbVertex = 4;
+    // vertexBuffer = ShaderProgram::CreateVertexBuffer(NbVertex);
 
     // On crée ici un tableau de 6 indices, soit 2 triangles, pour
     // représenter quels vertices participent à chaque triangle:
@@ -61,12 +61,12 @@ namespace SimpleGE
     // +----+
     // 3    2
     // ```
-    indexBuffer = ShaderProgram::CreateIndexBuffer(std::size(Indices));
-
-    {
-      auto bufferIndices = indexBuffer->Map({0, std::size(Indices)});
-      std::copy(Indices.begin(), Indices.end(), bufferIndices.Get().begin());
-    }
+    // indexBuffer = ShaderProgram::CreateIndexBuffer(std::size(Indices));
+    //
+    // {
+    //   auto bufferIndices = indexBuffer->Map({0, std::size(Indices)});
+    //   std::copy(Indices.begin(), Indices.end(), bufferIndices.Get().begin());
+    // }
 
     // Et on initialise le contenu des vertices
     UpdateMesh();
@@ -176,10 +176,5 @@ namespace SimpleGE
         {{xMax, yMax, z}, {uMax, vMax}},
         {{xMin, yMax, z}, {uMin, vMax}},
     }};
-
-    {
-      auto bufferVertices = vertexBuffer->Map({0, std::size(vertices)});
-      std::copy(vertices.begin(), vertices.end(), bufferVertices.Get().begin());
-    }
   }
 } // namespace SimpleGE

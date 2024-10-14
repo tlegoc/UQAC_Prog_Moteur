@@ -30,6 +30,8 @@ namespace SimpleGE::GFXAPI
     inline MemoryMap(MemoryMap<T>&& other) noexcept;
     inline ~MemoryMap();
 
+    inline void ForceUnmap();
+
     MemoryMap<T>& operator=(const MemoryMap<T>&) = delete;
     inline MemoryMap<T>& operator=(MemoryMap<T>&& other) noexcept;
 
