@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "ChickenDodge",
+      "type": "cppdbg",
+      "linux": {
+        "type": "lldb",
+        "console": "integratedTerminal"
+      },
+      "windows": {
+        "type": "cppvsdbg",
+        "console": "newExternalWindow"
+      },
+      "request": "launch",
+      "program": "${command:cmake.getLaunchTargetDirectory}/chickendodge",
+      "args": ["-U", "Alice", "-O", "Bob"],
+      "stopAtEntry": false,
+      "cwd": "${command:cmake.getLaunchTargetDirectory}",
+      "setupCommands": [
+        {
+          "description": "Activer l'impression en mode Pretty pour gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}

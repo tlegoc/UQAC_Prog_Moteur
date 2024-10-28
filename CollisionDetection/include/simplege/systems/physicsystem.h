@@ -41,7 +41,6 @@ namespace SimpleGE
       }
       std::vector<std::pair<gsl::not_null<ColliderComponent*>, gsl::not_null<ColliderComponent*>>> collisions;
 
-      // TODO USE QUADTREE
       for (int i = 0; i < std::size(collidersVec); i++)
       {
         auto c1 = collidersVec[i];
