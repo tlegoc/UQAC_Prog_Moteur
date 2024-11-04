@@ -8,6 +8,27 @@
 
 namespace SimpleGE
 {
+  class BVHNode
+  {
+  public:
+    BVHNode* tl;
+    BVHNode* tr;
+    BVHNode* bl;
+    BVHNode* br;
+    std::unordered_set<gsl::not_null<ColliderComponent*>> colliders;
+    glm::vec2 min, max;
+
+    void Insert(gsl::not_null<ColliderComponent*> comp)
+    {
+
+    };
+
+    void Remove(gsl::not_null<ColliderComponent*> comp)
+    {
+
+    };
+  };
+
   class PhysicSystem : public ISystem
   {
   public:
@@ -49,7 +70,7 @@ namespace SimpleGE
         {
           auto c2 = collidersVec[j];
 
-          if (c1->Collides(*c2))
+          if ((bool) (c1->GetMask() & c2->GetMask()) && c1->Collides(*c2))
           {
             collisions.emplace_back(c1, c2);
           }
