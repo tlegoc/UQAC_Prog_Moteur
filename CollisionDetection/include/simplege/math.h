@@ -173,6 +173,34 @@ namespace SimpleGE
                (yMax() <= other.yMin()));
     }
 
+    [[nodiscard]] bool Contains(const Area& other) const
+    {
+      return (xMin() <= other.xMin()) && (xMax() >= other.xMax()) && (yMin() <= other.yMin()) &&
+             (yMax() >= other.yMax());
+    }
+
+    [[nodiscard]] Area Union(const Area& other) const
+    {
+      float minX = std::min(xMin(), other.xMin());
+      float minY = std::min(yMin(), other.yMin());
+      float maxX = std::max(xMax(), other.xMax());
+      float maxY = std::max(yMax(), other.yMax());
+      return {minX + (maxX - minX) / 2.F, minY + (maxY - minY) / 2.F, maxX - minX, maxY - minY};
+    }
+
+    /**
+    * @returns An array of 4 areas, each representing a quadrant of the current area. bl, br, tl, tr
+    */
+    [[nodiscard]] auto Split()
+    {
+      return std::array<Area, 4>{
+        Area{xMin() + width() / 4.F, yMin() + height() / 4.F, width() / 2.F, height() / 2.F},
+        Area{xMin() + 3.F * width() / 4.F, yMin() + height() / 4.F, width() / 2.F, height() / 2.F},
+        Area{xMin() + width() / 4.F, yMin() + 3.F * height() / 4.F, width() / 2.F, height() / 2.F},
+        Area{xMin() + 3.F * width() / 4.F, yMin() + 3.F * height() / 4.F, width() / 2.F, height() / 2.F}
+      };
+    }
+
     Point<2> position{};
     Size<float> size{};
   };
