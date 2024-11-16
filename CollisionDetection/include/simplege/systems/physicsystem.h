@@ -8,6 +8,8 @@
 #include <simplege/entity.h>
 #include <simplege/systems/system.h>
 
+// #define ENABLE_QUADTREE_DEBUG_OVERLAY
+
 namespace SimpleGE
 {
     using ComponentVector = std::vector<gsl::not_null<ColliderComponent*>>;
@@ -212,6 +214,7 @@ namespace SimpleGE
 
         void Iterate(const Timing& timing) override
         {
+#ifdef ENABLE_QUADTREE_DEBUG_OVERLAY
             // debug overlay to display colliders and quadtree
             ImGuiWindowFlags window_flags = 0;
             window_flags |= ImGuiWindowFlags_NoBackground;
@@ -221,7 +224,6 @@ namespace SimpleGE
             window_flags |= ImGuiWindowFlags_NoScrollbar;
             window_flags |= ImGuiWindowFlags_NoCollapse;
             auto io = ImGui::GetIO();
-            // ImGui::SetNextWindowBgAlpha(0.35f);
             ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x, io.DisplaySize.y));
             ImGui::SetNextWindowPos(ImVec2(0, 0));
 
@@ -229,6 +231,7 @@ namespace SimpleGE
             ImGui::Begin("Overlay", &open, window_flags);
             ImGui::SetWindowPos(ImVec2(0, 0));
             ImDrawList* draw_list = ImGui::GetWindowDrawList();
+#endif
             int collidesCount = 0;
 
             ComponentVector collidersVec;
@@ -249,9 +252,11 @@ namespace SimpleGE
                 if (&c1->Owner() != &c2->Owner() && c1->GetMask() & c2->GetFlag() || c2->GetMask() & c1->GetFlag())
                 {
                     collidesCount++;
+#ifdef ENABLE_QUADTREE_DEBUG_OVERLAY
                     draw_list->AddLine(ImVec2(c1->GetArea().x(), c1->GetArea().y()),
                                        ImVec2(c2->GetArea().x(), c2->GetArea().y()),
                                        IM_COL32(255, 255, 0, 255));
+#endif
                     if (c1->Collides(*c2))
                     {
                         CollisionPair collision = {c1, c2};
@@ -298,6 +303,7 @@ namespace SimpleGE
                 col.second->OnCollision(*col.first);
             }
 
+#ifdef ENABLE_QUADTREE_DEBUG_OVERLAY
             // draw each collider
             for (auto c : colliders)
             {
@@ -321,6 +327,7 @@ namespace SimpleGE
             ImGui::Text("Number of collision checks: %d", collidesCount);
             ImGui::Text("Colliders: %d", colliders.size());
             ImGui::End();
+#endif
         }
 
     private:
