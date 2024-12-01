@@ -37,6 +37,8 @@ namespace SimpleGE
 
     [[nodiscard]] int GetMask() const { return mask; }
 
+    [[nodiscard]] int GetFlag() const { return flag; }
+
   private:
     int flag{};
     int mask{};
