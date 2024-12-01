@@ -1,3 +1,5 @@
+#include "fmt/args.h"
+
 #include <simplege/pch/precomp.h>
 
 #include <simplege/simplege.h>
@@ -33,6 +35,16 @@ namespace SimpleGE
       return std::string(key);
     }
 
+    // define possible arguments that will be found inside our localized string
+    fmt::dynamic_format_arg_store<fmt::format_context> store;
+
+    for (const auto &argument : mergedContext)
+    {
+      store.push_back(fmt::arg(argument.first.c_str(), argument.second.c_str()));
+    }
+
+    std::string result = fmt::vformat(localized->second, store);
+
     // ***TODO***: Implémenter la substitution de clés
 #define DUMP_MERGED_CONTEXT // Enlever quand ça fonctionne correctement
 #ifdef DUMP_MERGED_CONTEXT
@@ -46,6 +58,6 @@ namespace SimpleGE
     }
 #endif // DUMP_MERGED_CONTEXT
 
-    return localized->second;
+    return result;
   }
 } // namespace SimpleGE
