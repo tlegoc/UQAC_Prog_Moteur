@@ -1,0 +1,10 @@
+# Coéquipiers
+# Format:
+# - Code Permanent: Prénom Nom
+#
+# Exemple:
+# equipe:
+#   MARL12345678: Lucas Martin
+#   BERN12345678: Nathan Bernard
+#   PETE12345678: Emma Petit
+equipe:

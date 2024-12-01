@@ -1,0 +1,13 @@
+{
+  "version": "0.2.1",
+  "configurations": [
+    {
+      "type": "default",
+      "project": "CMakeLists.txt",
+      "projectTarget": "chickendodge.exe (examples\\chickendodge\\chickendodge.exe)",
+      "name": "ChickenDodge",
+      "args": ["-U", "Alice", "-O", "Bob"],
+      "env": { "LANG": "fr" }
+    }
+  ]
+}
