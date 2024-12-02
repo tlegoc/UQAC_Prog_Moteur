@@ -1,0 +1,36 @@
+{
+  "version": "0.2.1",
+  "configurations": [
+    {
+      "type": "default",
+      "project": "CMakeLists.txt",
+      "projectTarget": "chickendodge.exe (examples\\chickendodge\\chickendodge.exe)",
+      "name": "Single",
+      "args": ["-U", "Alice", "-O", "Bob"],
+      "env": { "LANG": "fr" }
+    },
+    {
+      "type": "default",
+      "project": "CMakeLists.txt",
+      "projectTarget": "chickendodge.exe (examples\\chickendodge\\chickendodge.exe)",
+      "name": "Client 1",
+      "args": ["-U", "Alice", "-h", "127.0.0.1", "-p", "4321", "-d", "2000"],
+      "env": { "LANG": "fr" }
+    },
+    {
+      "type": "default",
+      "project": "CMakeLists.txt",
+      "projectTarget": "chickendodge.exe (examples\\chickendodge\\chickendodge.exe)",
+      "name": "Client 2",
+      "args": ["-U", "Bob", "-h", "127.0.0.1", "-p", "4321", "-d", "2000"],
+      "env": { "LANG": "en" }
+    },
+    {
+      "type": "default",
+      "project": "CMakeLists.txt",
+      "projectTarget": "chickendodge_server.exe (examples\\chickendodge\\chickendodge_server.exe)",
+      "name": "Serveur",
+      "args": ["-p", "4321"]
+    }
+  ]
+}

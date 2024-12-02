@@ -1,0 +1,18 @@
+{
+    "CHAR_KEYS": "WASD/ZQSD",
+    "ARROW_KEYS": "Arrows",
+    "SPACE_KEY": "Space",
+    "ENTER_KEY": "Enter",
+    "MOVE": "Move",
+    "ATTACK": "Attack",
+
+    "player0": "sprites/green_player_en.png",
+    "player1": "sprites/red_player_en.png",
+    "wait": "sprites/wait_en.png",
+    "countdown_1": "sprites/countdown_step1_en.png",
+    "countdown_2": "sprites/countdown_step2_en.png",
+    "countdown_3": "sprites/countdown_step3_en.png",
+    "greenPlayer": "Green Player",
+    "redPlayer": "Red Player",
+    "winMessage": "Congratulations, {WINNER}! You defeated {LOSER}!"
+}
