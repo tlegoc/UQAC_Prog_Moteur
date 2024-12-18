@@ -1,0 +1,24 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558 
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "pretty",
+            "windows": {
+                "command": "powershell",
+                "args": [
+                    "${workspaceFolder}/pretty.ps1"
+                ],
+            },
+            "linux": {
+                "command": "${workspaceFolder}/pretty.sh"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        }
+    ]
+}

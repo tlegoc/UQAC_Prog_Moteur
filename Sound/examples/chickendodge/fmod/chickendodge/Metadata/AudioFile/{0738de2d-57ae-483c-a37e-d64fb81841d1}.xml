@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{0738de2d-57ae-483c-a37e-d64fb81841d1}">
+		<property name="assetPath">
+			<value>cucco_idle.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>32</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>0.30753124999999998</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{abead0e8-3b41-4718-bc09-ed5568669a66}</destination>
+		</relationship>
+	</object>
+</objects>

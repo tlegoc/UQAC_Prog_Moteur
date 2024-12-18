@@ -5,6 +5,9 @@
 #include "chickendodge/messages/networklogin.h"
 #include "chickendodge/messages/networkstart.h"
 
+#include <chickendodge/messages/networkscore.h>
+#include <chickendodge/messages/networkscorelist.h>
+
 using namespace SimpleGE;
 
 namespace ChickenDodge
@@ -24,6 +27,25 @@ namespace ChickenDodge
         NetworkSystem::Send(otherPlayer.get(), msg);
       }
     }
+    if (msg.Is<NetworkScore>())
+    {
+      auto scoreMsg = msg.Get<NetworkScore>();
+      fmt::print("Message de score recu: {} (score {})\n", scoreMsg.name, scoreMsg.score);
+      if (scoreMsg.score > scores[scoreMsg.name])
+      {
+        scores[scoreMsg.name] = scoreMsg.score;
+        NetworkScoreList scoreUpdate(scores);
+
+        // Update all other clients except the one that sent the message (avoid updating an already up to date client)
+        for (const auto& client : clients)
+        {
+          if (client.first != connection.GetID())
+          {
+            NetworkSystem::Send(client.second.player.get(), scoreUpdate);
+          }
+        }
+      }
+    }
   }
 
   void NetworkPlayerServerComponent::OnNetworkLogin(Network::Connection& connection, const NetworkLogin& msg)
@@ -31,6 +53,12 @@ namespace ChickenDodge
     auto id = connection.GetID();
     auto& socketData = clients.find(id)->second;
     socketData.name = msg.name;
+
+
+    // Send the score
+    // Do this here because we need to do it even if
+    NetworkScoreList scoreUpdate(scores);
+    NetworkSystem::Send(&connection, scoreUpdate);
 
     // Si aucun joueur n'est en attente, on place le nouveau
     // joueur en attente.

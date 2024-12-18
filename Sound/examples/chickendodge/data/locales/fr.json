@@ -1,0 +1,18 @@
+{
+    "CHAR_KEYS": "WASD/ZQSD",
+    "ARROW_KEYS": "Flèches",
+    "MOVE": "Se déplacer",
+    "SPACE_KEY": "Espace",
+    "ENTER_KEY": "Retour",
+    "ATTACK": "Attaquer",
+
+    "player0": "sprites/green_player_fr.png",
+    "player1": "sprites/red_player_fr.png",
+    "wait": "sprites/wait_fr.png",
+    "countdown_1": "sprites/countdown_step1_fr.png",
+    "countdown_2": "sprites/countdown_step2_fr.png",
+    "countdown_3": "sprites/countdown_step3_fr.png",
+    "greenPlayer": "Joueur Vert",
+    "redPlayer": "Joueur Rouge",
+    "winMessage": "Bravo, {WINNER}! Tu as battu {LOSER}!"
+}

@@ -5,7 +5,7 @@
 #include <mutex>
 #include <thread>
 
-#define USE_DEBUG_LEADERBOARD
+ #define USE_DEBUG_LEADERBOARD
 
 namespace ChickenDodge
 {
@@ -48,8 +48,10 @@ namespace ChickenDodge
       bool done{};
     };
 
-    DebugLeaderboardTest debug1 = {*this, "Test 1", 1234, std::chrono::seconds(5)};
-    DebugLeaderboardTest debug2 = {*this, "Test 2", 750, std::chrono::seconds(3)};
+    // On utilisera une frequence aléatoire pour bien vérifier que la synchronisation est correctement effectuée
+    // Bizarrement sur le code que je télécharge depuis le moodle les rubis n'ajoutent pas de valeurs aux leaderboard...
+    DebugLeaderboardTest debug1 = {*this, "Test 1", 1234, std::chrono::seconds(std::rand() % 10)};
+    DebugLeaderboardTest debug2 = {*this, "Test 2", 750, std::chrono::seconds(std::rand() % 10)};
 #endif // USE_DEBUG_LEADERBOARD
   };
 } // namespace ChickenDodge

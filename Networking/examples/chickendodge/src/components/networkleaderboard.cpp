@@ -1,8 +1,11 @@
 #include "chickendodge/pch/precomp.h"
 
 #include "chickendodge/components/networkleaderboard.h"
+#include "chickendodge/messages/networkscore.h"
+#include "fmt/printf.h"
 
 #include <imgui.h>
+#include <chickendodge/messages/networkscorelist.h>
 
 using json = nlohmann::json;
 
@@ -12,13 +15,24 @@ namespace ChickenDodge
 {
   void NetworkLeaderboardComponent::OnMessage(Network::Connection& connection, const BaseMessage& msg)
   {
-    // TODO: Implémenter le fonctionnement
+    if (msg.Is<NetworkScoreList>())
+    {
+      const auto& scoreMsg = msg.Get<NetworkScoreList>();
+
+      fmt::print("Score recu\n");
+
+      std::lock_guard<std::mutex> lock(mutex);
+      scores = scoreMsg.scores;
+    }
   }
 
   void NetworkLeaderboardComponent::SetScore(const std::string& name, int score)
   {
     std::lock_guard<std::mutex> lock(mutex);
     scores[name] = score;
+
+    NetworkScore msg(name, score);
+    NetworkSystem::Send(msg);
   }
 
   void NetworkLeaderboardComponent::UpdateLogic(const SimpleGE::Timing& timing)
@@ -52,7 +66,7 @@ namespace ChickenDodge
   NetworkLeaderboardComponent::DebugLeaderboardTest::DebugLeaderboardTest(NetworkLeaderboardComponent& owner,
                                                                           std::string_view name, int score,
                                                                           std::chrono::milliseconds freq)
-      : owner(owner), name(name), score(score), freq(freq), thread([this]() { Run(); })
+    : owner(owner), name(name), score(score), freq(freq), thread([this]() { Run(); })
   {
   }
 

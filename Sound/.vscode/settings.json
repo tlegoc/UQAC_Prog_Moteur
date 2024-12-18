@@ -1,0 +1,7 @@
+{
+  "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
+  "cmake.debugConfig": {
+    "console": "newExternalWindow"
+  },
+  "clangd.arguments": ["--header-insertion=never"]
+}

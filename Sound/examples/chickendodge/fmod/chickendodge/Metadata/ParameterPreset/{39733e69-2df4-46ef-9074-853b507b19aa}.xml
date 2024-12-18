@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{39733e69-2df4-46ef-9074-853b507b19aa}">
+		<property name="name">
+			<value>NbChicken</value>
+		</property>
+		<relationship name="folder">
+			<destination>{4a74f495-6543-4843-9f2e-ce0d8c0e8025}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{296cd705-c6b9-4977-a167-06a36d19cbe0}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{296cd705-c6b9-4977-a167-06a36d19cbe0}">
+		<property name="maximum">
+			<value>50</value>
+		</property>
+		<property name="isGlobal">
+			<value>true</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+		<property name="isExposedRecursively">
+			<value>false</value>
+		</property>
+	</object>
+</objects>

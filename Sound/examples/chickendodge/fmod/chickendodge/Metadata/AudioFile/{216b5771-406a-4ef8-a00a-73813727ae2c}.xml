@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{216b5771-406a-4ef8-a00a-73813727ae2c}">
+		<property name="assetPath">
+			<value>rupee_drop.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>32</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>0.1819375</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{abead0e8-3b41-4718-bc09-ed5568669a66}</destination>
+		</relationship>
+	</object>
+</objects>

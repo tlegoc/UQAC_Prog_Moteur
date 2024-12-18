@@ -1,0 +1,112 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Single",
+      "type": "cppdbg",
+      "linux": {
+        "type": "lldb",
+        "console": "integratedTerminal"
+      },
+      "windows": {
+        "type": "cppvsdbg",
+        "console": "newExternalWindow"
+      },
+      "request": "launch",
+      "program": "${command:cmake.getLaunchTargetDirectory}/chickendodge",
+      "args": ["-U", "Alice", "-O", "Bob"],
+      "stopAtEntry": false,
+      "cwd": "${command:cmake.getLaunchTargetDirectory}",
+      "environment": [{ "name": "LANG", "value": "fr" }],
+      "setupCommands": [
+        {
+          "description": "Activer l'impression en mode Pretty pour gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    },
+    {
+      "name": "Client 1",
+      "type": "cppdbg",
+      "linux": {
+        "type": "lldb",
+        "console": "integratedTerminal"
+      },
+      "windows": {
+        "type": "cppvsdbg",
+        "console": "newExternalWindow"
+      },
+      "request": "launch",
+      "program": "${command:cmake.getLaunchTargetDirectory}/chickendodge",
+      "args": ["-U", "Alice", "-h", "127.0.0.1", "-p", "4321", "-d", "2000"],
+      "stopAtEntry": false,
+      "cwd": "${command:cmake.getLaunchTargetDirectory}",
+      "environment": [{ "name": "LANG", "value": "fr" }],
+      "setupCommands": [
+        {
+          "description": "Activer l'impression en mode Pretty pour gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    },
+    {
+      "name": "Client 2",
+      "type": "cppdbg",
+      "linux": {
+        "type": "lldb",
+        "console": "integratedTerminal"
+      },
+      "windows": {
+        "type": "cppvsdbg",
+        "console": "newExternalWindow"
+      },
+      "request": "launch",
+      "program": "${command:cmake.getLaunchTargetDirectory}/chickendodge",
+      "args": ["-U", "Bob", "-h", "127.0.0.1", "-p", "4321", "-d", "2000"],
+      "stopAtEntry": false,
+      "cwd": "${command:cmake.getLaunchTargetDirectory}",
+      "environment": [{ "name": "LANG", "value": "en" }],
+      "setupCommands": [
+        {
+          "description": "Activer l'impression en mode Pretty pour gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    },
+    {
+      "name": "Serveur",
+      "type": "cppdbg",
+      "linux": {
+        "type": "lldb",
+        "console": "integratedTerminal"
+      },
+      "windows": {
+        "type": "cppvsdbg",
+        "console": "newExternalWindow"
+      },
+      "request": "launch",
+      "program": "${command:cmake.getLaunchTargetDirectory}/chickendodge_server",
+      "args": ["-p", "4321"],
+      "stopAtEntry": false,
+      "cwd": "${command:cmake.getLaunchTargetDirectory}",
+      "environment": [],
+      "setupCommands": [
+        {
+          "description": "Activer l'impression en mode Pretty pour gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Multi",
+      "configurations": ["Client 1", "Client 2", "Serveur"],
+      "stopAll": true
+    }
+  ]
+}
